@@ -102,9 +102,6 @@ Instead of displaying Matrix glyphs, display genetic code
 .B \-mode ascii
 Instead of displaying Matrix glyphs, display random ASCII characters.
 .TP 8
-.B \-mode wakenda
-Instead of displaying Matrix glyphs, only glyphs from the film "Black Panther."
-.TP 8
 .B \-mode pipe
 Instead of displaying random characters, display the output of a subprocess,
 as ASCII.
