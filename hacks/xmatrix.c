@@ -753,7 +753,7 @@ xmatrix_init (Display *dpy, Window window)
       state->use_pipe_p = True;
       state->tc = textclient_open (dpy);
     }
-  else if (!mode || !*mode || !strcasecmp(mode, "matrix"))
+  else if (!mode || !*mode || !strcasecmp(mode, "matrix") || !strcasecmp(mode, "wakenda"))
     set_mode (state, MATRIX);
   else
     {

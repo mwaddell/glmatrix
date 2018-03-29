@@ -21,6 +21,7 @@
 
   <select id="mode">
     <option id="matrix" _label="Matrix encoding"/>
+    <option id="wakenda" _label="Wakenda encoding"    arg-set="-mode wakenda"/>
     <option id="binary" _label="Binary encoding"      arg-set="-mode binary"/>
     <option id="hex"    _label="Hexadecimal encoding" arg-set="-mode hex"/>
     <option id="dna"    _label="Genetic encoding"     arg-set="-mode dna"/>

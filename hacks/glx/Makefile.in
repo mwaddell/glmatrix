@@ -1860,6 +1860,7 @@ gllist.o: $(srcdir)/gllist.h
 glmatrix.o: ../../config.h
 glmatrix.o: $(HACK_SRC)/fps.h
 glmatrix.o: $(HACK_SRC)/images/matrix3.xpm
+glmatrix.o: $(HACK_SRC)/images/wakenda.xpm
 glmatrix.o: $(HACK_SRC)/screenhackI.h
 glmatrix.o: $(UTILS_SRC)/colors.h
 glmatrix.o: $(UTILS_SRC)/erase.h

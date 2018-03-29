@@ -37,6 +37,7 @@
                     the following XPM file... */
 #endif
 #include "../images/matrix3.xpm"
+#include "../images/wakenda.xpm"
 
 #ifdef USE_GL /* whole file */
 
@@ -193,6 +194,7 @@ static XrmOptionDescRec opts[] = {
   { "-density",     ".density",   XrmoptionSepArg, 0 },
   { "-mode",        ".mode",      XrmoptionSepArg, 0 },
   { "-binary",      ".mode",      XrmoptionNoArg, "binary"      },
+  { "-wakenda",     ".mode",      XrmoptionNoArg, "wakenda"      },
   { "-hexadecimal", ".mode",      XrmoptionNoArg, "hexadecimal" },
   { "-decimal",     ".mode",      XrmoptionNoArg, "decimal"     },
   { "-dna",         ".mode",      XrmoptionNoArg, "dna"         },
@@ -695,19 +697,21 @@ spank_image (matrix_configuration *mp, XImage *xi)
 
 
 static void
-load_textures (ModeInfo *mi, Bool flip_p)
+load_textures (ModeInfo *mi, Bool flip_p, int use_wakenda)
 {
   matrix_configuration *mp = &mps[MI_SCREEN(mi)];
   XImage *xi;
   int x, y;
   int cw, ch;
   int orig_w, orig_h;
+  char** xpm = matrix3_xpm;
+  if (use_wakenda)
+      xpm = wakenda_xpm;
 
   /* The Matrix XPM is 512x598 -- but GL texture sizes must be powers of 2.
      So we waste some padding rows to round up.
    */
-  xi = xpm_to_ximage (mi->dpy, mi->xgwa.visual, mi->xgwa.colormap,
-                      matrix3_xpm);
+  xi = xpm_to_ximage (mi->dpy, mi->xgwa.visual, mi->xgwa.colormap, xpm);
   orig_w = xi->width;
   orig_h = xi->height;
   mp->real_char_rows = CHAR_ROWS;
@@ -777,7 +781,10 @@ load_textures (ModeInfo *mi, Bool flip_p)
           unsigned char g = (p >> gpos) & 0xFF;
           unsigned char b = (p >> bpos) & 0xFF;
           unsigned char a = g;
-          g = 0xFF;
+          if (use_wakenda)
+            b = 0xFF;
+          else
+            g = 0xFF;
           p = (r << rpos) | (g << gpos) | (b << bpos) | (a << apos);
           XPutPixel (xi, x, y, p);
         }
@@ -825,6 +832,7 @@ init_matrix (ModeInfo *mi)
   int wire = MI_IS_WIREFRAME(mi);
   Bool flip_p = 0;
   int i;
+  int use_wakenda = 0;
 
   if (wire)
     do_texture = False;
@@ -839,6 +847,13 @@ init_matrix (ModeInfo *mi)
       flip_p = 1;
       mp->glyph_map = matrix_encoding;
       mp->nglyphs   = countof(matrix_encoding);
+    }
+  else if (!strcasecmp(mode_str, "wakenda"))
+    {
+      flip_p = 1;
+      mp->glyph_map = matrix_encoding;
+      mp->nglyphs   = countof(matrix_encoding);
+      use_wakenda = 1;
     }
   else if (!strcasecmp (mode_str, "dna"))
     {
@@ -870,7 +885,7 @@ init_matrix (ModeInfo *mi)
   else
     {
       fprintf (stderr,
-           "%s: `mode' must be matrix, dna, binary, or hex: not `%s'\n",
+           "%s: `mode' must be matrix, wakenda, dna, binary, or hex: not `%s'\n",
                progname, mode_str);
       exit (1);
     }
@@ -884,7 +899,7 @@ init_matrix (ModeInfo *mi)
   glEnable(GL_NORMALIZE);
 
   if (do_texture)
-    load_textures (mi, flip_p);
+    load_textures (mi, flip_p, use_wakenda);
 
   /* to scale coverage-percent to strips, this number looks about right... */
   mp->nstrips = (int) (density * 2.2);

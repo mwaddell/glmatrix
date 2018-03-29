@@ -13,6 +13,7 @@ glmatrix - simulates the title sequence effect of the movie
 [\-no\-rotate]
 [\-binary]
 [\-hexadecimal]
+[\-wakenda]
 [\-dna]
 [\-clock]
 [\-timefmt \fIfmt\fP]
@@ -75,6 +76,9 @@ Instead of displaying Matrix glyphs, display hexadecimal digits.
 .B \-dna\fP
 Instead of displaying Matrix glyphs, display genetic code
 (guanine, adenine, thymine, and cytosine.)
+.TP 8
+.B \-wakenda\fP
+Instead of displaying Matrix glyphs, display glyphs from the film "Black Panther."
 .TP 8
 .B \-clock\fP
 Hide a clock displaying the current time somewhere in the glyphs.
