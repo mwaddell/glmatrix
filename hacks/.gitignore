@@ -2,3 +2,4 @@
 !*.*
 *.o
 /m6502.h
+/glx/molecules.h
